@@ -20,10 +20,12 @@ def clean_and_transform_data(raw_products: list) -> pd.DataFrame:
     df.dropna(subset=['price'], inplace=True)
     df['price'] = df['price'].astype(float) * 16000  # Asumsi konversi 1 unit = 16.000 IDR
 
-    # Bersihkan dan konversi rating ke float
+    # Bersihkan dan ubah kolom rating menjadi float
     df['rating'] = df['rating'].replace(r'[^0-9.]', '', regex=True).replace('', np.nan)
     df.dropna(subset=['rating'], inplace=True)
     df['rating'] = df['rating'].astype(float)
+    df['rating'] = df['rating'].apply(lambda x: float(f"{x:.1f}") if x == int(x) else float(str(x)[:str(x).find('.')+2]))
+
 
     # Bersihkan dan ubah kolom rating menjadi float
     df['rating'] = df['rating'].replace(r'[^0-9.]', '', regex=True).replace('', np.nan)
