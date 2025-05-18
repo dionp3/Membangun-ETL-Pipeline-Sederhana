@@ -25,10 +25,10 @@ def clean_and_transform_data(raw_products: list) -> pd.DataFrame:
     df.dropna(subset=['rating'], inplace=True)
     df['rating'] = df['rating'].astype(float)
 
-    # Bersihkan dan konversi warna ke integer
-    df['colors'] = df['colors'].replace(r'\D', '', regex=True).replace('', np.nan)
-    df.dropna(subset=['colors'], inplace=True)
-    df['colors'] = df['colors'].astype(int)
+    # Bersihkan dan ubah kolom rating menjadi float
+    df['rating'] = df['rating'].replace(r'[^0-9.]', '', regex=True).replace('', np.nan)
+    df.dropna(subset=['rating'], inplace=True)
+    df['rating'] = df['rating'].astype(float).round(1)
 
     # Hilangkan label teks dari kolom size dan gender
     df['size'] = df['size'].replace(r'Size:\s*', '', regex=True)
